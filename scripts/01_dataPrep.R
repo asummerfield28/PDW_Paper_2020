@@ -56,7 +56,7 @@ colnames(tblHU_POP00) <- c("GISJOIN","Population","Housing_Units")
 
 ## Import Spatial Data
 # Join all of the 1990 tabular data to the spatial data
-bg2000 <- st_read(here("data/shapefiles/US_blck_grp10_2000.shp"))%>%
+bg2000 <- st_read(here("data/shapefiles/US_blck_grp_2000_tl10.shp"))%>%
   dplyr::select(GISJOIN,STATEFP00,COUNTYFP00,ALAND00,AWATER00)%>%
   left_join(tblHU_POP00)%>%
     mutate(YEAR = "2000")%>%
