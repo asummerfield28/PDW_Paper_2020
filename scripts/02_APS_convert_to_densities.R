@@ -119,7 +119,7 @@ sfEA2$Area <- st_area(sfEA2)%>%
 sfEA2$hu_Density <- sfEA2$Housing_Units / sfEA2$Area
 
 # find indices for only Texas counties
-sfEA2 <- sfEA2[ which( sfEA2$ST_FIPS == '48' ), ]
+sfEA2 <- sfEA2[ which( sfEA2$STATEFP00 == '48' ), ]
 
 # Create list of all County fips codes
 sfEA2$STCO <- as.factor(paste0(sfEA2$STATEFP00,sfEA2$COUNTYFP00))   # Create Column for State/County FIPS
