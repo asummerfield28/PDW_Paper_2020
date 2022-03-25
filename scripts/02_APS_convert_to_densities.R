@@ -36,6 +36,19 @@ sfEA$hu_Density <- sfEA$Housing_Units / sfEA$Area
 # of counties that will be run in the loop.                                                   #
 ###############################################################################################
 
+# list of FEMA-declared disaster counties after Harvey
+  # (from Nate Jones: https://github.com/asummerfield28/HurricaneHarvey/blob/master/RScripts/County_Analysis.R)
+disaster <- c('Aransas', 'Austin', 'Bastrop', 'Bee', 'Brazoria', 
+            'Caldwell', 'Calhoun', 'Chambers', 'Colorado', 'DeWitt', 
+            'Fayette', 'Fort Bend', 'Galveston', 'Goliad', 'Gonzales', 
+            'Grimes', 'Hardin', 'Harris', 'Jackson', 'Jasper', 'Jefferson', 
+            'Karnes', 'Kleberg', 'Lavaca', 'Lee', 'Liberty', 'Matagorda', 
+            'Montgomery', 'Newton', 'Nueces', 'Orange', 'Polk', 'Refugio', 
+            'Sabine', 'San Jacinto', 'San Patricio', 'Tyler', 'Victoria', 
+            'Walker', 'Waller', 'Wharton')
+
+disaster <- tibble(NAME = disaster) %>% mutate(NAME = as_factor(NAME))
+
 #####################################
 # 1990 Well Density & Housing Units #
 #####################################
@@ -45,6 +58,11 @@ sfEA <- sfEA[ which( sfEA$ST_FIPS == '48' ), ]
 
 # Create list of all County fips codes
 sfEA$STCO <- as.factor(paste0(sfEA$ST_FIPS,sfEA$CO_FIPS))   # Create Column for State/County FIPS
+
+#limit counties to disaster areas
+# sfEAtest <- sfEA %>% 
+  # dplyr::select(COUNTY) %>% 
+  # filter(COUNTY %in% disaster$NAME)
 
 counties <- levels(sfEA$STCO)                 # Make a list of all State/county fips combinations
 
