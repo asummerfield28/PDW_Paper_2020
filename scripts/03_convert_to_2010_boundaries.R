@@ -67,8 +67,8 @@ run <- substr(layers$name,19,20)
 # Make sure to remove Washington DC as this needs to be run by itself, since it is only one 'county'.
 states <- states[states != "11"]
 
-# Or you can make a filter to just run one or some of the states
-states <- c("27")
+# Or you can make a filter to just run one or some of the states (ie Texas)
+states <- c("48")
 
 # Using full.names = FALSE here will give us a short name which we can extract the state fips code from
 stateFips <- data.frame(file = list.files(here("data/rasters/County_Well_Densities_1990_100m"),full.names = FALSE,pattern = '.tif$'))%>%
