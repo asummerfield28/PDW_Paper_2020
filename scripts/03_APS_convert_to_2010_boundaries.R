@@ -62,6 +62,20 @@ mosaicList <- function(rasList){
   return(mos)
 }
 
+#####
+# test loop to see where the error is located
+# just make an initial mosaic by joining the first two rasters and then iterate to
+  # add the remaining rasters?
+
+for (i in 1:(length(raster_list) - 1)) {
+  
+  test <- raster_list[[i]]
+  test2 <- raster_list[[i+1]]
+  mos <- raster::mosaic(test, test2, fun = mean)
+  print( paste0("pair ",i," completed") )
+  
+}
+
 # Next, we need to make a list of all of the rasters we have created in the previous step. We create a data frame that
 # has a column for the file path of each raster and a colum denoting the state fips code for that raster.
 
