@@ -42,8 +42,8 @@ mosaicList <- function(rasList){
     for (i in 1:(length(list_names))){ 
       grd_name <- list_names[i] # list_names contains all the names of the images in .grd format
       raster_file <- raster::raster(grd_name)
-    } # pretty sure this bracket should go on the next line, after the append() function
     raster_list <- append(raster_list, raster_file) # update raster_list at each iteration
+    }
   }
   
   #convert every raster path to a raster object and create list of the results
@@ -66,14 +66,14 @@ mosaicList <- function(rasList){
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # test loop to see where the error is located
-for (i in 1:(length(raster_list) - 1)) {
-  
-  test <- raster_list[[i]]
-  test2 <- raster_list[[i+1]]
-  mos <- raster::mosaic(test, test2, fun = mean)
-  print( paste0("pair ",i," completed") )
-  
-}
+# for (i in 1:(length(raster_list) - 1)) {
+#   
+#   test <- raster_list[[i]]
+#   test2 <- raster_list[[i+1]]
+#   mos <- raster::mosaic(test, test2, fun = mean)
+#   print( paste0("pair ",i," completed") )
+#   
+# }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -83,17 +83,17 @@ for (i in 1:(length(raster_list) - 1)) {
 # test loop to see where the error is located
 # just make an initial mosaic by joining the first two rasters and then iterate to
 # add the remaining rasters?
-test <- raster_list[[1]]
-test2 <- raster_list[[2]]
-mos <- raster::mosaic(test, test2, fun = mean)
-
-for (i in 3:(length(raster_list))) {
-  
-  test <- raster_list[[i]]
-  mos <- raster::mosaic(mos, test, fun = mean)
-  print( paste0( "raster ",i," added at ",Sys.time() ) )
-  
-}
+# test <- raster_list[[1]]
+# test2 <- raster_list[[2]]
+# mos <- raster::mosaic(test, test2, fun = mean)
+# 
+# for (i in 3:(length(raster_list))) {
+#   
+#   test <- raster_list[[i]]
+#   mos <- raster::mosaic(mos, test, fun = mean)
+#   print( paste0( "raster ",i," added at ",Sys.time() ) )
+#   
+# }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
