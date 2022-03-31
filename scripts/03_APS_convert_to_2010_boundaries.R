@@ -42,7 +42,7 @@ mosaicList <- function(rasList){
     for (i in 1:(length(list_names))){ 
       grd_name <- list_names[i] # list_names contains all the names of the images in .grd format
       raster_file <- raster::raster(grd_name)
-    }
+    } # pretty sure this bracket should go on the next line, after the append() function
     raster_list <- append(raster_list, raster_file) # update raster_list at each iteration
   }
   
@@ -63,10 +63,9 @@ mosaicList <- function(rasList){
 }
 
 #####
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # test loop to see where the error is located
-# just make an initial mosaic by joining the first two rasters and then iterate to
-  # add the remaining rasters?
-
 for (i in 1:(length(raster_list) - 1)) {
   
   test <- raster_list[[i]]
@@ -75,6 +74,28 @@ for (i in 1:(length(raster_list) - 1)) {
   print( paste0("pair ",i," completed") )
   
 }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#####
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# test loop to see where the error is located
+# just make an initial mosaic by joining the first two rasters and then iterate to
+# add the remaining rasters?
+test <- raster_list[[1]]
+test2 <- raster_list[[2]]
+mos <- raster::mosaic(test, test2, fun = mean)
+
+for (i in 3:(length(raster_list))) {
+  
+  test <- raster_list[[i]]
+  mos <- raster::mosaic(mos, test, fun = mean)
+  print( paste0( "raster ",i," added at ",Sys.time() ) )
+  
+}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Next, we need to make a list of all of the rasters we have created in the previous step. We create a data frame that
 # has a column for the file path of each raster and a colum denoting the state fips code for that raster.
@@ -103,6 +124,9 @@ filesDF <- data.frame(wells90_file = list.files(here("data/rasters/County_Well_D
          hu90_file = as.character(hu90_file),
          hu00_file = as.character(hu00_file))
 
+#####
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # # Now we write a loop which will subset our rasters by each state, then feed that subset to the mosaic function
 # # we wrote at the beginning of this script. We can then use the raster::extract() function to reagregate the data
 # 
@@ -143,8 +167,12 @@ filesDF <- data.frame(wells90_file = list.files(here("data/rasters/County_Well_D
 #   
 #   print(paste0("Finished Writing ",n," at: ",Sys.time()))
 # }
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #####
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # do the above loop without it being a loop
 # Now we write a loop which will subset our rasters by each state, then feed that subset to the mosaic function
 # we wrote at the beginning of this script. We can then use the raster::extract() function to reagregate the data
@@ -184,6 +212,8 @@ print(paste0("2000 Housing Unit Density Extraction Completed for ",n," at: ", Sy
 st_write(sfSub,here("data/geopackage/reag_2010_boundaries.gpkg"), layer = paste0("2010_Block_Groups_",n), append = FALSE)
 
 print(paste0("Finished Writing ",n," at: ",Sys.time()))
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #####
 # We need to do Washington DC seperately because it does not have multiple 
