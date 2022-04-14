@@ -1,7 +1,5 @@
 remove( list = ls() )
 
-# change
-
 library(sf)
 library(tidyverse)
 library(raster)
@@ -68,14 +66,14 @@ mosaicList <- function(rasList){
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # test loop to see where the error is located
-# for (i in 1:(length(raster_list) - 1)) {
-#   
-#   test <- raster_list[[i]]
-#   test2 <- raster_list[[i+1]]
-#   mos <- raster::mosaic(test, test2, fun = mean)
-#   print( paste0("pair ",i," completed") )
-#   
-# }
+for (i in 1:(length(raster_list) - 1)) {
+
+  test <- raster_list[[i]]
+  test2 <- raster_list[[i+1]]
+  mos <- raster::mosaic(test, test2, fun = min)
+  print( paste0("pair ",i," completed") )
+
+}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
