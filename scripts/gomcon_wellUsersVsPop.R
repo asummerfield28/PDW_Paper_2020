@@ -14,7 +14,11 @@ library(dplyr)
 # load EPA estimates
 epaRaw <- read.csv( "data\\Well_Estimates\\Blocks By State\\final_estimates_blocks_TX.csv" )
 
+# load USGS estimates
 usgsRaw <- read.csv( "data\\USGS_REM_WellUsingPop_TX_blk.csv" )
+
+# load TX block shapefiles
+txBlkShp <- st_read( 'data\\shapefiles\\TX_block_2010.shp' )
 
 # select just: geoid, county name, population, epa est, and usgs est
 epa <- epaRaw %>% 
@@ -34,6 +38,21 @@ wellEstimates <- epa %>%
 wellEstimateTotals <- wellEstimates %>% 
   summarise( epaWellUserPop = sum(epaWellUserPop, na.rm = TRUE),
              usgsWellUserPop = sum(usgsWellUserPop, na.rm = TRUE) )
+
+#####
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# relationship between population and size of block
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+txBlkAreas <- txBlkShp %>% 
+  st_drop_geometry() %>% 
+  dplyr::select( GEOID10, Shape_area ) %>% 
+  mutate( GEOID = as.numeric(GEOID10) ) %>% 
+  left_join( epa, by = 'GEOID' )
+
+# plot
+ggplot( txBlkAreas ) +
+  geom_point( aes( x = Shape_area, y = population ) ) +
+  labs( x = 'Block Area (UNITS)', y = 'Population')
 
 #####
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
